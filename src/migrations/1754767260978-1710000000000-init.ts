@@ -60,6 +60,11 @@ export class Init1710000000000 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
+      CREATE UNIQUE INDEX uq_funcionarios_all
+      ON funcionarios (lower(nombre), puesto_id, institucion_id, source_page_id, status);
+    `);
+
+    await queryRunner.query(`
       CREATE INDEX idx_funcionarios_nombre_trgm
       ON funcionarios USING GIN (nombre gin_trgm_ops);
     `);
@@ -77,6 +82,7 @@ export class Init1710000000000 implements MigrationInterface {
     await queryRunner.query(`DROP INDEX IF EXISTS idx_funcionarios_puesto;`);
     await queryRunner.query(`DROP INDEX IF EXISTS idx_funcionarios_nombre_trgm;`);
     await queryRunner.query(`DROP INDEX IF EXISTS uq_funcionarios_semantic;`);
+    await queryRunner.query(`DROP INDEX IF EXISTS uq_funcionarios_all;`);
 
     await queryRunner.query(`DROP TABLE IF EXISTS funcionarios;`);
     await queryRunner.query(`DROP TABLE IF EXISTS source_pages;`);
