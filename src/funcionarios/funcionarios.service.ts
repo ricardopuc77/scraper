@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFuncionarioDto } from './dto/create-funcionario.dto';
-import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Area } from './entities/area.entity';
 import { Repository } from 'typeorm';
 import { Institucion } from './entities/instituciones.entity';
 import { Puesto } from './entities/puestos.entity';
 import { Funcionario } from './entities/funcionario.entity';
+import { FilterFuncionarioDto } from './dto/filter-funcionario.dto';
 
 @Injectable()
 export class FuncionariosService {
@@ -23,7 +22,6 @@ export class FuncionariosService {
   ) { }
 
   async getResources() {
-    // Logic to fetch resources, e.g., from a database or an external API
     const areas = await this.areaRepository.find();
     const instituciones = await this.institucionRepository.find();
     const puestos = await this.puestoRepository.find();
@@ -32,5 +30,32 @@ export class FuncionariosService {
       instituciones,
       puestos
     };
+  }
+
+  async listFuncionarios(filters: FilterFuncionarioDto) {
+    const queryBuilder = this.funcionarioRepository.createQueryBuilder('funcionario')
+      .leftJoinAndSelect('funcionario.institucion', 'institucion')
+      .leftJoinAndSelect('funcionario.area', 'area')
+      .leftJoinAndSelect('funcionario.puesto', 'puesto');
+
+    if (filters.nombre) {
+      queryBuilder.andWhere('LOWER(funcionario.nombre) LIKE LOWER(:nombre)', {
+        nombre: `%${filters.nombre}%`,
+      });
+    }
+
+    if (filters.institucionId) {
+      queryBuilder.andWhere('institucion.id = :institucionId', { institucionId: filters.institucionId });
+    }
+
+    if (filters.areaId) {
+      queryBuilder.andWhere('area.id = :areaId', { areaId: filters.areaId });
+    }
+
+    if (filters.puestoId) {
+      queryBuilder.andWhere('puesto.id = :puestoId', { puestoId: filters.puestoId });
+    }
+
+    return await queryBuilder.getMany();
   }
 }

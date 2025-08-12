@@ -1,11 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { FuncionariosService } from './funcionarios.service';
-import { CreateFuncionarioDto } from './dto/create-funcionario.dto';
-import { UpdateFuncionarioDto } from './dto/update-funcionario.dto';
+import { FilterFuncionarioDto } from './dto/filter-funcionario.dto';
 
 @Controller('funcionarios')
 export class FuncionariosController {
   constructor(private readonly funcionariosService: FuncionariosService) { }
+
+  @Get()
+  listFuncionarios(@Query() filters: FilterFuncionarioDto) {
+    return this.funcionariosService.listFuncionarios(filters);
+  }
 
   @Get('/getResources')
   getResources() {

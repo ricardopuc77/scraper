@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Puesto } from "./puestos.entity";
 import { Area } from "./area.entity";
 import { Institucion } from "./instituciones.entity";
@@ -23,6 +23,7 @@ export class Funcionario {
     (puesto) => puesto.id,
     { eager: true, nullable: false }
   )
+  @JoinColumn({ name: "puesto_id" })
   puesto: Puesto;
 
   @ManyToOne(
@@ -30,6 +31,7 @@ export class Funcionario {
     (area) => area.id,
     { eager: true, nullable: false }
   )
+  @JoinColumn({ name: "area_id" })
   area: Area;
 
   @ManyToOne(
@@ -37,6 +39,7 @@ export class Funcionario {
     (institucion) => institucion.id,
     { eager: true, nullable: false }
   )
+  @JoinColumn({ name: "institucion_id" })
   institucion: Institucion;
 
   @Column({ type: "integer", default: 1 })
