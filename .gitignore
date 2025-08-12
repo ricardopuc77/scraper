@@ -3,6 +3,10 @@
 /node_modules
 /build
 
+# Entorno virtual
+.venv/
+venv/
+
 # Logs
 logs
 *.log
