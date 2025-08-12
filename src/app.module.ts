@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScraperModule } from './scraper/scraper.module';
+import { FuncionariosModule } from './funcionarios/funcionarios.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 @Module({
@@ -13,7 +14,8 @@ dotenv.config();
       autoLoadEntities: true,
       synchronize: false,
     }),
-    ScraperModule
+    ScraperModule,
+    FuncionariosModule
   ],
   controllers: [AppController],
   providers: [AppService],
