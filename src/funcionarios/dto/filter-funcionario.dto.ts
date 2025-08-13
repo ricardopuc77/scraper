@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsInt, IsOptional, IsString } from "class-validator";
+import { IsInt, IsOptional, IsString, Min } from "class-validator";
 
 export class FilterFuncionarioDto {
 
@@ -21,4 +21,16 @@ export class FilterFuncionarioDto {
   @Type(() => Number)
   @IsInt()
   puestoId?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  limit?: number;
 }

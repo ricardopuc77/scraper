@@ -56,6 +56,17 @@ export class FuncionariosService {
       queryBuilder.andWhere('puesto.id = :puestoId', { puestoId: filters.puestoId });
     }
 
-    return await queryBuilder.getMany();
+    const page = filters.page || 1;
+    const limit = filters.limit || 10;
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await queryBuilder.skip(skip).take(limit).getManyAndCount();
+
+    return {
+      data,
+      total,
+      page,
+      limit
+    }
   }
 }
