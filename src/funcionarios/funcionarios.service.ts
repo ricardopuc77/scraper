@@ -39,7 +39,7 @@ export class FuncionariosService {
       .leftJoinAndSelect('funcionario.puesto', 'puesto');
 
     if (filters.nombre) {
-      queryBuilder.andWhere('LOWER(funcionario.nombre) LIKE LOWER(:nombre)', {
+      queryBuilder.andWhere('LOWER(funcionario.nombre) LIKE unaccent(LOWER(:nombre))', {
         nombre: `%${filters.nombre}%`,
       });
     }
