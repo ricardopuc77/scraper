@@ -1,98 +1,208 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛠 Web Scraper + API REST
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este proyecto consta de dos partes principales:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+1. 🐍 **Scraper en Python**: Extrae información de funcionarios públicos del sitio oficial de Yucatán, la normaliza y la guarda en una base de datos PostgreSQL.
+2. 🚀 **API en NestJS**: Expone los datos almacenados mediante endpoints con filtros y paginación para ser consumidos por una interfaz frontend.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🗂 Estructura del Proyecto
 
-## Project setup
-
-```bash
-$ npm install
+```
+api/               # Backend NestJS + PostgreSQL
+│   ├── src/
+│   ├── .env
+│   ├── Dockerfile
+│   └── ...
+├── scraper/           # Scraper en Python (integrado en la carpeta api/)
+│   ├── main.py
+│   ├── ingest.py
+│   ├── models.py
+│   ├── db.py
+│   ├── repo.py
+│   ├── .venv/
+│   └── requirements.txt
+└── README.md
 ```
 
-## Compile and run the project
+---
+
+## ✅ Requisitos
+
+- [Node.js](https://nodejs.org/) >= 18
+- [Python](https://www.python.org/) >= 3.10
+- [Docker](https://www.docker.com/) (opcional pero recomendado)
+- PostgreSQL local o contenedor
+- Git
+
+---
+
+## 🚀 Instalación Rápida
+
+### 1. Clona el repositorio
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+git clone https://github.com/ricardopuc77/scraper
 ```
 
-## Run tests
+---
+
+### 2. Backend NestJS (`api/`)
 
 ```bash
-# unit tests
-$ npm run test
+cd scraper
 
-# e2e tests
-$ npm run test:e2e
+# Instala dependencias
+npm install
 
-# test coverage
-$ npm run test:cov
+# Crea y configura el archivo .env
 ```
 
-## Deployment
+#### Ejemplo de `.env`:
+```
+DATABASE_URL=postgresql+psycopg2://postgres:myPassword@localhost:5433/evaluacion
+PORT=3000
+```
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+---
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 3. Base de datos con Docker
+
+Si quieres levantar PostgreSQL con Docker:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+docker-compose up -d
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Esto usará el archivo `docker-compose.yml` (añádelo si aún no lo tienes).
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+### 4. Ejecutar migraciones
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+npm run migration:run
+```
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### 5. Ejecutar la API
 
-## Stay in touch
+```bash
+npm run start:dev
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+La API estará disponible en `http://localhost:3001`
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 6. Scraper en Python
+
+#### 6.1 Activar entorno virtual
+
+```bash
+cd scraper
+python -m venv .venv
+.\.venv\Scriptsctivate
+```
+
+#### 6.2 Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+#### 6.3 Ejecutar el scraper manualmente (opcional)
+
+```bash
+python main.py
+```
+
+> Esto extraerá la información, la procesará y la insertará en la base de datos.
+
+---
+
+### 7. Ejecutar scraper desde el endpoint NestJS 
+
+Puedes hacer una petición a:
+
+```
+POST /scraper
+```
+
+Para ejecutar el script de scraping desde el backend.
+
+---
+
+## 🧪 Endpoints disponibles
+
+
+### `GET /funcionarios`
+
+Con filtros:
+
+```
+GET /funcionarios?nombre=joaquin&puesto=1&institucion=2&page=1&limit=10
+```
+
+#### Respuesta de ejemplo:
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "nombre": "MTRO. JOAQUÍN JESÚS DÍAZ MENA",
+      "puesto": { "id": 1, "nombre": "Gobernador" },
+      "institucion": { "id": 1, "nombre": "Palacio de Gobierno" },
+      "area": null,
+      "direccion": "Calle 61 x 60 y 62, Centro, C.P. 97000, Mérida, Yucatán",
+      "telefono": "(999) 930 3100 Ext. 10054",
+      "sourcePage": { "id": 1, "url": "https://www.yucatan.gob.mx/gobierno/detalle.php?id_d=1" },
+      "status": 1
+    }
+  ],
+  "total": 47,
+  "page": 1,
+  "limit": 10
+}
+```
+
+#### Filtros disponibles:
+
+- `nombre`: búsqueda parcial, ignora tildes
+- `puesto`, `institucion`, `area`: IDs exactos
+- `page`, `limit`: para paginación
+
+
+---
+
+### `GET /api/funcionarios/getResources`
+
+Este endpoint retorna los catálogos necesarios para poblar filtros en el frontend.
+
+#### Respuesta de ejemplo:
+```json
+{
+  "puestos": [
+    { "id": 1, "nombre": "Gobernador" },
+    { "id": 2, "nombre": "Secretario Particular" }
+  ],
+  "instituciones": [
+    { "id": 1, "nombre": "Palacio de Gobierno" },
+    { "id": 2, "nombre": "Secretaría de Finanzas" }
+  ],
+  "areas": [
+    { "id": 1, "nombre": "Área Técnica" },
+    { "id": 2, "nombre": "Área Administrativa" }
+  ]
+}
+```
+
+Este endpoint es útil para poblar los selects de búsqueda en la UI.
+
+
+## 🙌 Autor
+
+Ricardo Puc  
+Desarrollador Backend | Python & NestJS  
