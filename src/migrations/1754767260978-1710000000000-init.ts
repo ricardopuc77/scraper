@@ -6,6 +6,7 @@ export class Init1710000000000 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS citext;`);
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS pg_trgm;`);
+    await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS unaccent;`);
 
     await queryRunner.query(`
       CREATE TABLE puestos (
