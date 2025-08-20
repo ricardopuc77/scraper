@@ -61,8 +61,19 @@ npm install
 
 #### Ejemplo de `.env`:
 ```
+# DB
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=myPassword
+POSTGRES_DB=evaluacion
+POSTGRES_PORT=5433
+
+# App
+DATABASE_URL_NEST=postgres://postgres:myPassword@localhost:5433/evaluacion
 DATABASE_URL=postgresql+psycopg2://postgres:myPassword@localhost:5433/evaluacion
-PORT=3000
+
+NODE_ENV=development
+PORT=3001
+
 ```
 
 ---
@@ -104,7 +115,7 @@ La API estará disponible en `http://localhost:3001`
 ```bash
 cd scraper
 python -m venv .venv
-.\.venv\Scriptsctivate
+.\.venv\Scripts\Activate
 ```
 
 #### 6.2 Instalar dependencias
